@@ -35,8 +35,5 @@ export const siteContent = {
   share: "مشاركة",
   copied: "تم نسخ الرابط!",
   shareText: "انضموا إلينا في الاحتفال بولادة يونس! أرسلوا تهنئتكم هنا: ",
-  musicTap: "اضغط لتشغيل النومية",
-  musicPlay: "تشغيل النومية",
-  musicPause: "إيقاف الصوت",
   charCount: (current: number, max: number) => `${current}/${max}`,
 } as const;

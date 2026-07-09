@@ -59,38 +59,27 @@ function StaticMessageGrid({ messages }: { messages: Message[] }) {
   );
 }
 
-function EmptyWishes() {
-  return (
-    <section className="relative overflow-hidden rounded-3xl border border-dashed border-sky-200/80 bg-white/90 px-4 py-12 text-center sm:rounded-[2rem] sm:bg-white/45 sm:px-6 sm:py-16 sm:backdrop-blur-xl">
-      <div className="relative mx-auto mb-5 w-fit md:hidden">
-        <BabyIcon className="h-20 w-20 opacity-90" />
-      </div>
-      <motion.div
-        animate={{ y: [0, -8, 0] }}
-        transition={{ duration: 2.5, repeat: Infinity }}
-        className="relative mx-auto mb-5 hidden w-fit md:block"
-      >
-        <BabyIcon className="h-20 w-20 opacity-90" />
-      </motion.div>
-      <p className="relative text-lg font-semibold text-sky-800 sm:text-xl">
-        {siteContent.emptyWishes}
-      </p>
-    </section>
-  );
-}
-
 export function MessageMarquee({ messages }: { messages: Message[] }) {
   const displayMessages = [...messages].reverse();
 
   if (displayMessages.length === 0) {
-    return <EmptyWishes />;
+    return (
+      <section className="rounded-3xl border border-dashed border-sky-200/80 bg-white px-4 py-12 text-center sm:rounded-[2rem] sm:bg-white/45 sm:px-6 sm:py-16 sm:backdrop-blur-xl">
+        <div className="mx-auto mb-5 w-fit">
+          <BabyIcon className="h-20 w-20 opacity-90" />
+        </div>
+        <p className="text-lg font-semibold text-sky-800 sm:text-xl">
+          {siteContent.emptyWishes}
+        </p>
+      </section>
+    );
   }
 
   const useMarquee = displayMessages.length >= MARQUEE_THRESHOLD;
   const duration = Math.max(displayMessages.length * 12, 24);
 
   return (
-    <section className="page-section space-y-4 sm:space-y-5">
+    <section className="space-y-4 sm:space-y-5">
       <div className="text-center">
         <h2 className="text-2xl font-bold tracking-tight text-slate-800 sm:text-4xl">
           {siteContent.wishesTitle}
@@ -100,7 +89,7 @@ export function MessageMarquee({ messages }: { messages: Message[] }) {
         </p>
       </div>
 
-      <div className="overflow-hidden rounded-3xl border border-white/60 bg-white/90 py-3 shadow-inner sm:rounded-[2rem] sm:bg-white/35 sm:py-4 sm:backdrop-blur-xl">
+      <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white py-3 sm:rounded-[2rem] sm:border-white/60 sm:bg-white/35 sm:backdrop-blur-xl">
         <div className="md:hidden">
           <MobileMessageList messages={displayMessages} />
         </div>

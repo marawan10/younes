@@ -126,7 +126,7 @@ body {
 @media (max-width: 768px) {
   .celebration-card {
     animation: none;
-    box-shadow: 0 4px 16px rgba(126, 200, 227, 0.1);
+    box-shadow: none;
   }
 
   .hero-glow,
@@ -155,8 +155,7 @@ body {
   }
 
   .page-section {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 320px;
+    contain: layout style;
   }
 }
 
