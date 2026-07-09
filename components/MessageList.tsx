@@ -1,5 +1,5 @@
 import { BabyIcon } from "@/components/BabyIcon";
-import { CssMarquee } from "@/components/CssMarquee";
+import { MarqueeRow } from "@/components/MarqueeRow";
 import { MessageCard } from "@/components/MessageCard";
 import { siteContent } from "@/lib/content";
 import type { Message } from "@/lib/db/schema";
@@ -37,7 +37,7 @@ export function MessageList({ messages }: { messages: Message[] }) {
 
       <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white py-3 md:rounded-[2rem] md:border-white/60 md:bg-white/35 md:backdrop-blur-xl">
         {useMarquee ? (
-          <CssMarquee messages={displayMessages} />
+          <MarqueeRow messages={displayMessages} />
         ) : (
           <div className="flex justify-center px-3 py-2 md:px-4 md:py-4">
             <div className="w-72 md:w-80">

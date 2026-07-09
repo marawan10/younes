@@ -133,18 +133,16 @@ body {
 }
 
 @keyframes marquee-scroll {
-  0% {
-    transform: translateX(0);
+  from {
+    transform: translate3d(0, 0, 0);
   }
-  100% {
-    transform: translateX(-50%);
+  to {
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
 .marquee-track {
-  animation-name: marquee-scroll;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
+  will-change: transform;
 }
 
 @media (max-width: 768px) {
@@ -189,8 +187,11 @@ body {
   .animate-shimmer,
   .animate-float-slow,
   .animate-float-slower,
-  .animate-float-up,
-  .marquee-track {
+  .animate-float-up {
     animation: none;
+  }
+
+  .marquee-track {
+    animation: none !important;
   }
 }
