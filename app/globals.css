@@ -145,16 +145,6 @@ body {
   animation-name: marquee-scroll;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-  will-change: transform;
-}
-
-.message-scroller {
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.message-scroller::-webkit-scrollbar {
-  display: none;
 }
 
 @media (max-width: 768px) {

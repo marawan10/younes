@@ -1,14 +1,16 @@
-import dynamic from "next/dynamic";
+import NextDynamic from "next/dynamic";
 import { Hero } from "@/components/Hero";
 import { MessageList } from "@/components/MessageList";
 import { PageChrome } from "@/components/PageChrome";
 import { getMessages } from "@/lib/messages";
 
-const MessageForm = dynamic(
+export const dynamic = "force-dynamic";
+
+const MessageForm = NextDynamic(
   () => import("@/components/MessageForm").then((m) => m.MessageForm),
 );
 
-const ShareButton = dynamic(
+const ShareButton = NextDynamic(
   () => import("@/components/ShareButton").then((m) => m.ShareButton),
 );
 

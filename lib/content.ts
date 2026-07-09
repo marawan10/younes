@@ -20,7 +20,6 @@ export const siteContent = {
     `الرسائل المرسلة: ${count.toLocaleString("ar-EG")}`,
   wishesTitle: "تهاني ليونس",
   wishesSubtitle: "رسائل من العائلة والأصدقاء",
-  swipeHint: "اسحب لرؤية جميع التهاني",
   emptyWishes: "كن أول من يرسل تهنئة!",
   sendTitle: "أرسل تهنئتك",
   sendSubtitle: "شارك رسالة ليونس وعائلته",

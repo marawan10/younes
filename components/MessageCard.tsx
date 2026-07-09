@@ -13,7 +13,7 @@ export function MessageCard({
   message: Message;
 }) {
   return (
-    <article className="message-card relative w-full md:w-80 md:shrink-0">
+    <article className="message-card relative w-full">
       <div className="relative rounded-2xl border border-slate-200/80 bg-white p-4 md:rounded-[1.25rem] md:border-white/70 md:bg-white/85 md:p-5 md:shadow-xl md:backdrop-blur-xl">
         <p className="mb-3 text-sm leading-relaxed text-slate-700 line-clamp-4 md:mb-5 md:line-clamp-5">
           {message.body}

@@ -1,6 +1,6 @@
 import { BabyIcon } from "@/components/BabyIcon";
-import { DesktopMessageSection } from "@/components/DesktopMessageSection";
-import { MobileMessageScroller } from "@/components/MobileMessageScroller";
+import { CssMarquee } from "@/components/CssMarquee";
+import { MessageCard } from "@/components/MessageCard";
 import { siteContent } from "@/lib/content";
 import type { Message } from "@/lib/db/schema";
 
@@ -35,17 +35,16 @@ export function MessageList({ messages }: { messages: Message[] }) {
         </p>
       </div>
 
-      <div className="rounded-3xl border border-slate-200/80 bg-white py-3 md:rounded-[2rem] md:border-white/60 md:bg-white/35 md:backdrop-blur-xl">
-        <div className="md:hidden">
-          <MobileMessageScroller messages={displayMessages} />
-        </div>
-
-        <div className="hidden md:block">
-          <DesktopMessageSection
-            messages={displayMessages}
-            useMarquee={useMarquee}
-          />
-        </div>
+      <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white py-3 md:rounded-[2rem] md:border-white/60 md:bg-white/35 md:backdrop-blur-xl">
+        {useMarquee ? (
+          <CssMarquee messages={displayMessages} />
+        ) : (
+          <div className="flex justify-center px-3 py-2 md:px-4 md:py-4">
+            <div className="w-72 md:w-80">
+              <MessageCard message={displayMessages[0]} />
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
