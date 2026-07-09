@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
-import { Cairo, Inter } from "next/font/google";
+import { Cairo } from "next/font/google";
 import { siteContent } from "@/lib/content";
 import "./globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
 
 const cairo = Cairo({
   variable: "--font-cairo",
   subsets: ["arabic", "latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -37,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" className="h-full" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${cairo.variable} min-h-full font-sans antialiased`}
+        className={`${cairo.variable} min-h-full font-sans antialiased`}
         suppressHydrationWarning
       >
         {children}

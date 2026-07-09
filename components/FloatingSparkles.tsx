@@ -1,7 +1,6 @@
 "use client";
 
 import { Heart, Sparkles, Star } from "lucide-react";
-import { useLiteMode } from "@/lib/hooks/use-lite-mode";
 
 const ITEMS = Array.from({ length: 8 }, (_, i) => ({
   id: i,
@@ -13,10 +12,6 @@ const ITEMS = Array.from({ length: 8 }, (_, i) => ({
 }));
 
 export function FloatingSparkles() {
-  const lite = useLiteMode();
-
-  if (lite) return null;
-
   return (
     <div className="pointer-events-none fixed inset-0 z-[1] overflow-hidden">
       {ITEMS.map(({ id, Icon, left, size, duration, delay }) => (

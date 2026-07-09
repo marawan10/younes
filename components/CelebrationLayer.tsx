@@ -8,13 +8,10 @@ import {
 import { Confetti } from "@/components/Confetti";
 import { FireworksCanvas } from "@/components/FireworksCanvas";
 import { FloatingSparkles } from "@/components/FloatingSparkles";
-import { useLiteMode } from "@/lib/hooks/use-lite-mode";
 
 export function CelebrationLayer() {
-  const lite = useLiteMode();
-
   useEffect(() => {
-    if (lite || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return;
     }
 
@@ -23,11 +20,7 @@ export function CelebrationLayer() {
     }, 12000);
 
     return () => clearInterval(interval);
-  }, [lite]);
-
-  if (lite) {
-    return null;
-  }
+  }, []);
 
   return (
     <>

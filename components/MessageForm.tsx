@@ -1,15 +1,12 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { siteContent } from "@/lib/content";
-import type { Message } from "@/lib/db/schema";
 
-export function MessageForm({
-  onMessageSent,
-}: {
-  onMessageSent: (message: Message) => void;
-}) {
+export function MessageForm() {
+  const router = useRouter();
   const [authorName, setAuthorName] = useState("");
   const [body, setBody] = useState("");
   const [website, setWebsite] = useState("");
@@ -45,7 +42,7 @@ export function MessageForm({
       setAuthorName("");
       setBody("");
       setStatus("success");
-      onMessageSent(data.message);
+      router.refresh();
       setTimeout(() => setStatus("idle"), 4000);
     } catch {
       setStatus("error");
@@ -54,20 +51,20 @@ export function MessageForm({
   }
 
   return (
-    <section className="page-section relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-4 shadow-sm sm:rounded-[2rem] sm:border-white/70 sm:bg-white/60 sm:p-10 sm:shadow-[0_20px_70px_rgba(126,200,227,0.18)] sm:backdrop-blur-2xl">
+    <section className="page-section relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-4 md:rounded-[2rem] md:border-white/70 md:bg-white/60 md:p-10 md:shadow-[0_20px_70px_rgba(126,200,227,0.18)] md:backdrop-blur-2xl">
       <div className="form-glow pointer-events-none absolute -right-10 -top-10 hidden h-40 w-40 rounded-full bg-violet-200/40 blur-3xl md:block" />
       <div className="form-glow pointer-events-none absolute -bottom-10 -left-10 hidden h-40 w-40 rounded-full bg-sky-200/40 blur-3xl md:block" />
 
-      <div className="relative mb-6 text-center sm:mb-8">
-        <h2 className="text-2xl font-bold tracking-tight text-slate-800 sm:text-4xl">
+      <div className="relative mb-6 text-center md:mb-8">
+        <h2 className="text-2xl font-bold tracking-tight text-slate-800 md:text-4xl">
           {siteContent.sendTitle}
         </h2>
-        <p className="mt-1.5 text-sm text-slate-500 sm:mt-2 sm:text-base">
+        <p className="mt-1.5 text-sm text-slate-500 md:mt-2 md:text-base">
           {siteContent.sendSubtitle}
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="relative mx-auto max-w-xl space-y-4 sm:space-y-5">
+      <form onSubmit={handleSubmit} className="relative mx-auto max-w-xl space-y-4 md:space-y-5">
         <div className="hidden" aria-hidden="true">
           <label htmlFor="website">Website</label>
           <input
@@ -141,7 +138,7 @@ export function MessageForm({
         <button
           type="submit"
           disabled={status === "loading"}
-          className="flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-sky-500 to-violet-500 px-6 py-4 text-base font-bold text-white shadow-md disabled:cursor-not-allowed disabled:opacity-70"
+          className="flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-sky-500 to-violet-500 px-6 py-4 text-base font-bold text-white disabled:cursor-not-allowed disabled:opacity-70"
         >
           {status === "loading" ? (
             <>

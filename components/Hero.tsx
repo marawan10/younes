@@ -35,7 +35,7 @@ export function Hero({ messageCount }: { messageCount: number }) {
               />
 
               <span
-                className="font-display text-[3.25rem] font-bold leading-[1.45] text-sky-700 sm:text-[5.5rem]"
+                className="font-arabic text-[3.25rem] font-bold leading-[1.45] text-sky-700 sm:text-[5.5rem]"
                 style={{ paddingBlock: "0.15em" }}
               >
                 {siteContent.babyName}

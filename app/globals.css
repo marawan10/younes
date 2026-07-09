@@ -9,8 +9,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-display: var(--font-inter), system-ui, sans-serif;
+  --font-sans: var(--font-cairo), system-ui, sans-serif;
+  --font-display: var(--font-cairo), system-ui, sans-serif;
   --font-arabic: var(--font-cairo), system-ui, sans-serif;
 }
 
@@ -124,6 +124,11 @@ body {
 }
 
 @media (max-width: 768px) {
+  body {
+    background: #fff8f0
+      radial-gradient(circle at top, #dff3ff 0%, transparent 50%);
+  }
+
   .celebration-card {
     animation: none;
     box-shadow: none;
@@ -155,7 +160,12 @@ body {
   }
 
   .page-section {
-    contain: layout style;
+    contain: layout style paint;
+  }
+
+  .message-card {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 88px;
   }
 }
 
