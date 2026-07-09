@@ -4,9 +4,11 @@ import { motion } from "framer-motion";
 import { BookOpen, Heart } from "lucide-react";
 import { BabyIcon } from "@/components/BabyIcon";
 import { siteContent } from "@/lib/content";
+import { useLiteMode } from "@/lib/hooks/use-lite-mode";
 
 export function Hero({ messageCount }: { messageCount: number }) {
   const { quranAyah } = siteContent;
+  const lite = useLiteMode();
 
   return (
     <section className="celebration-card relative overflow-hidden rounded-3xl border border-white/60 bg-white/55 px-4 py-8 text-center shadow-[0_20px_80px_rgba(126,200,227,0.25)] backdrop-blur-2xl sm:rounded-[2rem] sm:px-10 sm:py-16">
@@ -20,10 +22,16 @@ export function Hero({ messageCount }: { messageCount: number }) {
       >
         <motion.div
           className="relative"
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          animate={lite ? undefined : { y: [0, -10, 0] }}
+          transition={
+            lite
+              ? undefined
+              : { duration: 4, repeat: Infinity, ease: "easeInOut" }
+          }
         >
-          <div className="absolute inset-0 scale-125 rounded-full bg-sky-300/30 blur-3xl" />
+          {!lite && (
+            <div className="absolute inset-0 scale-125 rounded-full bg-sky-300/30 blur-3xl" />
+          )}
           <div className="relative rounded-full border border-white/70 bg-white/70 p-2.5 shadow-lg sm:p-3">
             <BabyIcon className="h-24 w-24 sm:h-32 sm:w-32" />
           </div>

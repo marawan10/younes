@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
+import { useLiteMode } from "@/lib/hooks/use-lite-mode";
 
 const variants: Variants = {
   hidden: { opacity: 0, y: 40, scale: 0.97 },
@@ -24,6 +25,12 @@ export function SectionReveal({
   className?: string;
   delay?: number;
 }) {
+  const lite = useLiteMode();
+
+  if (lite) {
+    return <section className={className}>{children}</section>;
+  }
+
   return (
     <motion.section
       className={className}

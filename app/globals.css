@@ -67,3 +67,83 @@ body {
     animation: none;
   }
 }
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 200% 200%;
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(24px, 18px) scale(1.08);
+  }
+}
+
+@keyframes float-up {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 18s linear infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 11s ease-in-out infinite;
+}
+
+.animate-float-slower {
+  animation: float-slow 14s ease-in-out infinite reverse;
+}
+
+.animate-float-up {
+  animation: float-up linear infinite;
+}
+
+@media (max-width: 768px) {
+  .celebration-card {
+    animation: none;
+  }
+
+  [data-lite="true"] .backdrop-blur-2xl,
+  [data-lite="true"] .backdrop-blur-xl,
+  [data-lite="true"] .backdrop-blur-md {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  [data-lite="true"] .blur-3xl,
+  [data-lite="true"] .blur-2xl,
+  [data-lite="true"] .blur-sm {
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-shimmer,
+  .animate-float-slow,
+  .animate-float-slower,
+  .animate-float-up {
+    animation: none;
+  }
+}

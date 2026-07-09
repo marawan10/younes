@@ -8,8 +8,17 @@ function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
+function isLiteMode() {
+  if (typeof window === "undefined") return false;
+  return (
+    window.innerWidth <= 768 ||
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+    navigator.hardwareConcurrency <= 4
+  );
+}
+
 export function fireFireworkBurst(x = 0.5, y = 0.4) {
-  if (prefersReducedMotion()) return;
+  if (prefersReducedMotion() || isLiteMode()) return;
 
   const base = {
     origin: { x, y },
@@ -44,6 +53,18 @@ export function fireFireworkBurst(x = 0.5, y = 0.4) {
 
 export function fireCelebrationConfetti() {
   if (prefersReducedMotion()) return;
+
+  if (isLiteMode()) {
+    confetti({
+      particleCount: 45,
+      spread: 75,
+      origin: { y: 0.55 },
+      colors: COLORS,
+      zIndex: 9999,
+      disableForReducedMotion: true,
+    });
+    return;
+  }
 
   const duration = 3200;
   const end = Date.now() + duration;
@@ -118,7 +139,21 @@ export function fireWelcomeShow() {
   });
 }
 
+export function fireWelcomeShowLite() {
+  if (prefersReducedMotion()) return;
+
+  confetti({
+    particleCount: 50,
+    spread: 70,
+    origin: { y: 0.45 },
+    colors: COLORS,
+    zIndex: 9999,
+    disableForReducedMotion: true,
+  });
+}
+
 export function fireRandomFirework() {
+  if (isLiteMode()) return;
   const x = 0.15 + Math.random() * 0.7;
   const y = 0.25 + Math.random() * 0.35;
   fireFireworkBurst(x, y);

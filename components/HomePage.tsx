@@ -9,10 +9,12 @@ import { MessageForm } from "@/components/MessageForm";
 import { MessageMarquee } from "@/components/MessageMarquee";
 import { SectionReveal } from "@/components/SectionReveal";
 import { ShareButton } from "@/components/ShareButton";
+import { useLiteMode } from "@/lib/hooks/use-lite-mode";
 import type { Message } from "@/lib/db/schema";
 
 export function HomePage({ initialMessages }: { initialMessages: Message[] }) {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const lite = useLiteMode();
 
   function handleMessageSent(message: Message) {
     setMessages((current) => [message, ...current]);
@@ -23,7 +25,10 @@ export function HomePage({ initialMessages }: { initialMessages: Message[] }) {
       <BackgroundLullaby />
       <AnimatedBackground />
       <CelebrationLayer />
-      <div className="relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-6xl flex-col gap-8 px-3 py-6 sm:gap-12 sm:px-6 sm:py-14">
+      <div
+        data-lite={lite ? "true" : undefined}
+        className="relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-6xl flex-col gap-8 px-3 py-6 sm:gap-12 sm:px-6 sm:py-14"
+      >
         <Hero messageCount={messages.length} />
 
         <SectionReveal delay={0.08}>
