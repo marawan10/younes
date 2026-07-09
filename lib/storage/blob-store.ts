@@ -76,3 +76,11 @@ export async function blobCountRecentByIp(
       new Date(message.createdAt).getTime() >= since.getTime(),
   ).length;
 }
+
+export async function blobDeleteMessage(id: string): Promise<boolean> {
+  const messages = await readMessages();
+  const next = messages.filter((message) => message.id !== id);
+  if (next.length === messages.length) return false;
+  await writeMessages(next);
+  return true;
+}

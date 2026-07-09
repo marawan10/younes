@@ -68,3 +68,11 @@ export async function fileCountRecentByIp(
       new Date(message.createdAt).getTime() >= since.getTime(),
   ).length;
 }
+
+export async function fileDeleteMessage(id: string): Promise<boolean> {
+  const messages = await ensureStore();
+  const next = messages.filter((message) => message.id !== id);
+  if (next.length === messages.length) return false;
+  await writeStore(next);
+  return true;
+}

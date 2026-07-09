@@ -5,6 +5,7 @@ import { messages, type Message } from "@/lib/db/schema";
 import {
   blobCountRecentByIp,
   blobCreateMessage,
+  blobDeleteMessage,
   blobGetAllMessages,
   blobGetMessages,
   hasBlobStorage,
@@ -12,6 +13,7 @@ import {
 import {
   fileCountRecentByIp,
   fileCreateMessage,
+  fileDeleteMessage,
   fileGetAllMessages,
   fileGetMessages,
 } from "@/lib/storage/file-store";
@@ -153,4 +155,42 @@ export async function countRecentMessagesByIp(
   }
 
   return fileCountRecentByIp(ipHash, since);
+}
+
+export async function deleteMessage(id: string): Promise<boolean> {
+  const mode = getStorageMode();
+  const db = getDb();
+
+  if (mode === "database" && db) {
+    try {
+      await ensureSchema();
+      const deleted = await db
+        .delete(messages)
+        .where(eq(messages.id, id))
+        .returning({ id: messages.id });
+      return deleted.length > 0;
+    } catch (error) {
+      console.error("Database delete failed:", error);
+      if (hasBlobStorage()) return blobDeleteMessage(id);
+      if (!isServerlessProduction()) return fileDeleteMessage(id);
+      throw new StorageUnavailableError();
+    }
+  }
+
+  if (mode === "blob") {
+    try {
+      return await blobDeleteMessage(id);
+    } catch (error) {
+      console.error("Blob delete failed:", error);
+      throw new StorageUnavailableError();
+    }
+  }
+
+  try {
+    return await fileDeleteMessage(id);
+  } catch (error) {
+    console.error("File delete failed:", error);
+    if (isServerlessProduction()) throw new StorageUnavailableError();
+    throw error;
+  }
 }

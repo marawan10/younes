@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Trash2 } from "lucide-react";
 import type { Message } from "@/lib/db/schema";
 
 export default function AdminPage() {
@@ -9,6 +10,7 @@ export default function AdminPage() {
   const [error, setError] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   async function fetchMessages() {
     setLoading(true);
@@ -55,6 +57,39 @@ export default function AdminPage() {
     await fetch("/api/admin/login", { method: "DELETE" });
     setAuthenticated(false);
     setMessages([]);
+  }
+
+  async function handleDelete(message: Message) {
+    const confirmed = window.confirm(
+      `Delete message from "${message.authorName}"?\n\nThis cannot be undone.`,
+    );
+    if (!confirmed) return;
+
+    setDeletingId(message.id);
+    setError("");
+
+    try {
+      const response = await fetch(`/api/admin/messages/${message.id}`, {
+        method: "DELETE",
+      });
+
+      if (response.status === 401) {
+        setAuthenticated(false);
+        setMessages([]);
+        return;
+      }
+
+      if (!response.ok) {
+        setError("Could not delete message.");
+        return;
+      }
+
+      setMessages((current) => current.filter((item) => item.id !== message.id));
+    } catch {
+      setError("Could not delete message.");
+    } finally {
+      setDeletingId(null);
+    }
   }
 
   if (authenticated === null || loading) {
@@ -117,6 +152,12 @@ export default function AdminPage() {
           </button>
         </div>
 
+        {error && (
+          <p className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {error}
+          </p>
+        )}
+
         {messages.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-12 text-center text-slate-500">
             No messages yet.
@@ -124,12 +165,13 @@ export default function AdminPage() {
         ) : (
           <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[640px] text-left text-sm">
+              <table className="w-full min-w-[720px] text-left text-sm">
                 <thead className="border-b border-slate-100 bg-slate-50 text-slate-600">
                   <tr>
                     <th className="px-4 py-3 font-medium">Date</th>
                     <th className="px-4 py-3 font-medium">Name</th>
                     <th className="px-4 py-3 font-medium">Message</th>
+                    <th className="px-4 py-3 font-medium">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -148,6 +190,17 @@ export default function AdminPage() {
                         {message.authorName}
                       </td>
                       <td className="px-4 py-3 text-slate-700">{message.body}</td>
+                      <td className="px-4 py-3">
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(message)}
+                          disabled={deletingId === message.id}
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-700 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                          {deletingId === message.id ? "Deleting..." : "Delete"}
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
