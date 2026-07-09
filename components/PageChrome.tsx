@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic";
 import { BackgroundLullaby } from "@/components/BackgroundLullaby";
-import { DesktopOnly } from "@/components/DesktopOnly";
 
 const CelebrationLayer = dynamic(
   () =>
@@ -20,10 +19,10 @@ export function PageChrome() {
   return (
     <>
       <BackgroundLullaby />
-      <DesktopOnly>
+      <CelebrationLayer />
+      <div className="hidden md:contents">
         <AnimatedBackground />
-        <CelebrationLayer />
-      </DesktopOnly>
+      </div>
     </>
   );
 }

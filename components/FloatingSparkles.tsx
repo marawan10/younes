@@ -2,19 +2,19 @@
 
 import { Heart, Sparkles, Star } from "lucide-react";
 
-const ITEMS = Array.from({ length: 8 }, (_, i) => ({
-  id: i,
-  Icon: i % 3 === 0 ? Heart : i % 3 === 1 ? Star : Sparkles,
-  left: `${(i * 17 + 5) % 95}%`,
-  size: 10 + (i % 3) * 3,
-  duration: 14 + (i % 4) * 2,
-  delay: i * 1.2,
-}));
+export function FloatingSparkles({ count = 8 }: { count?: number }) {
+  const items = Array.from({ length: count }, (_, i) => ({
+    id: i,
+    Icon: i % 3 === 0 ? Heart : i % 3 === 1 ? Star : Sparkles,
+    left: `${(i * 17 + 5) % 95}%`,
+    size: 10 + (i % 3) * 3,
+    duration: 14 + (i % 4) * 2,
+    delay: i * 1.2,
+  }));
 
-export function FloatingSparkles() {
   return (
     <div className="pointer-events-none fixed inset-0 z-[1] overflow-hidden">
-      {ITEMS.map(({ id, Icon, left, size, duration, delay }) => (
+      {items.map(({ id, Icon, left, size, duration, delay }) => (
         <span
           key={id}
           className="absolute animate-float-up text-sky-400/35"

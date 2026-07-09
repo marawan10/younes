@@ -152,6 +152,22 @@ export function fireWelcomeShowLite() {
   });
 }
 
+export function fireMobileBurst() {
+  if (prefersReducedMotion()) return;
+
+  const x = 0.2 + Math.random() * 0.6;
+
+  confetti({
+    particleCount: 40,
+    spread: 80,
+    startVelocity: 32,
+    origin: { x, y: 0.35 },
+    colors: COLORS,
+    zIndex: 9999,
+    disableForReducedMotion: true,
+  });
+}
+
 export function fireRandomFirework() {
   if (isLiteMode()) return;
   const x = 0.15 + Math.random() * 0.7;

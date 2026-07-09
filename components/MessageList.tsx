@@ -37,7 +37,7 @@ export function MessageList({ messages }: { messages: Message[] }) {
         </p>
       </div>
 
-      <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white py-3 md:rounded-[2rem] md:border-white/60 md:bg-white/35 md:backdrop-blur-xl">
+      <div className="rounded-3xl border border-slate-200/80 bg-white py-3 md:rounded-[2rem] md:border-white/60 md:bg-white/35 md:backdrop-blur-xl">
         <div className="flex flex-col gap-3 px-3 py-3 md:hidden">
           {mobileMessages.map((message) => (
             <MessageCard key={message.id} message={message} />

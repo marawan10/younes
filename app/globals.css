@@ -28,7 +28,6 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
   -webkit-tap-highlight-color: transparent;
   overflow-x: hidden;
-  overscroll-behavior-y: none;
 }
 
 .font-arabic {
@@ -67,8 +66,18 @@ body {
   animation: glow-pulse 5s ease-in-out infinite;
 }
 
-.page-section {
-  contain: layout style;
+@keyframes float-gentle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-float-gentle {
+  animation: float-gentle 3.5s ease-in-out infinite;
 }
 
 @keyframes shimmer {
@@ -131,7 +140,6 @@ body {
 
   .celebration-card {
     animation: none;
-    box-shadow: none;
   }
 
   .hero-glow,
@@ -158,22 +166,11 @@ body {
     mask-image: none;
     -webkit-mask-image: none;
   }
-
-  .page-section {
-    contain: layout style paint;
-  }
-
-  .message-card {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 88px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .celebration-card {
-    animation: none;
-  }
-
+  .celebration-card,
+  .animate-float-gentle,
   .animate-shimmer,
   .animate-float-slow,
   .animate-float-slower,

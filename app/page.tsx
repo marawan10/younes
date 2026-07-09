@@ -18,7 +18,7 @@ export default async function Page() {
   return (
     <>
       <PageChrome />
-      <div className="relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-6xl flex-col gap-8 px-3 py-6 md:gap-12 md:px-6 md:py-14">
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-8 px-3 py-6 md:gap-12 md:px-6 md:py-14">
         <Hero messageCount={messages.length} />
 
         <section className="page-section">

@@ -8,7 +8,7 @@ export function Hero({ messageCount }: { messageCount: number }) {
   return (
     <section className="celebration-card page-section relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white px-4 py-8 text-center shadow-sm sm:rounded-[2rem] sm:border-white/60 sm:bg-white/55 sm:px-10 sm:py-16 sm:shadow-[0_20px_80px_rgba(126,200,227,0.25)] sm:backdrop-blur-2xl">
       <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-5 sm:gap-7">
-        <div className="relative">
+        <div className="relative animate-float-gentle">
           <div className="relative rounded-full border border-white/70 bg-white p-2.5 shadow-sm sm:bg-white/70 sm:p-3 sm:shadow-lg">
             <BabyIcon className="h-24 w-24 sm:h-32 sm:w-32" />
           </div>
