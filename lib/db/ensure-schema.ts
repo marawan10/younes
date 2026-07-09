@@ -1,9 +1,10 @@
 import { sql } from "drizzle-orm";
-import { db } from "@/lib/db";
+import { getDb } from "@/lib/db";
 
 let ensured = false;
 
 export async function ensureSchema() {
+  const db = getDb();
   if (!db || ensured) return;
 
   await db.execute(sql`

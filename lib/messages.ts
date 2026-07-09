@@ -1,5 +1,5 @@
 import { desc, and, eq, gte } from "drizzle-orm";
-import { db } from "@/lib/db";
+import { getDb } from "@/lib/db";
 import { ensureSchema } from "@/lib/db/ensure-schema";
 import { messages, type Message } from "@/lib/db/schema";
 import {
@@ -26,7 +26,7 @@ export class StorageUnavailableError extends Error {
 type StorageMode = "database" | "blob" | "file";
 
 function getStorageMode(): StorageMode {
-  if (db) return "database";
+  if (getDb()) return "database";
   if (hasBlobStorage()) return "blob";
   return "file";
 }
@@ -41,11 +41,12 @@ export function isUsingDatabase(): boolean {
 
 export async function getMessages(limit = 50): Promise<Message[]> {
   const mode = getStorageMode();
+  const db = getDb();
 
-  if (mode === "database") {
+  if (mode === "database" && db) {
     try {
       await ensureSchema();
-      return await db!
+      return await db
         .select()
         .from(messages)
         .orderBy(desc(messages.createdAt))
@@ -65,11 +66,12 @@ export async function getMessages(limit = 50): Promise<Message[]> {
 
 export async function getAllMessages(): Promise<Message[]> {
   const mode = getStorageMode();
+  const db = getDb();
 
-  if (mode === "database") {
+  if (mode === "database" && db) {
     try {
       await ensureSchema();
-      return await db!.select().from(messages).orderBy(desc(messages.createdAt));
+      return await db.select().from(messages).orderBy(desc(messages.createdAt));
     } catch {
       if (hasBlobStorage()) return blobGetAllMessages();
       return fileGetAllMessages();
@@ -89,14 +91,12 @@ export async function createMessage(input: {
   ipHash: string;
 }): Promise<Message> {
   const mode = getStorageMode();
+  const db = getDb();
 
-  if (mode === "database") {
+  if (mode === "database" && db) {
     try {
       await ensureSchema();
-      const [created] = await db!
-        .insert(messages)
-        .values(input)
-        .returning();
+      const [created] = await db.insert(messages).values(input).returning();
       return created;
     } catch (error) {
       console.error("Database create failed:", error);
@@ -129,11 +129,12 @@ export async function countRecentMessagesByIp(
   since: Date,
 ): Promise<number> {
   const mode = getStorageMode();
+  const db = getDb();
 
-  if (mode === "database") {
+  if (mode === "database" && db) {
     try {
       await ensureSchema();
-      const recent = await db!
+      const recent = await db
         .select({ id: messages.id })
         .from(messages)
         .where(
