@@ -49,23 +49,23 @@ Open [http://localhost:3000/admin](http://localhost:3000/admin) for the messages
 
 1. Push this project to GitHub
 2. Import the repo in [Vercel](https://vercel.com)
-3. In the Vercel dashboard, go to **Storage** and add **Neon** (or Postgres)
+3. In the Vercel dashboard, go to **Storage** and add **Neon** (recommended)
 4. Connect the database to your project — Vercel will inject `POSTGRES_URL`
 5. Add environment variable: `ADMIN_PASSWORD=your-secret-password`
 6. Deploy
-7. After first deploy, run the schema push from your machine (with production `POSTGRES_URL`):
 
-```bash
-npm run db:push
-```
+The app auto-creates the `messages` table on first request when `POSTGRES_URL` is set.
 
-Or run it once via Vercel CLI / a one-off command.
+**Alternative:** connect **Vercel Blob** instead — Vercel injects `BLOB_READ_WRITE_TOKEN` and messages are stored in blob storage.
+
+Without Postgres or Blob, messages cannot be saved on Vercel (local file storage only works in development).
 
 ## Environment variables
 
 | Variable | Description |
 |----------|-------------|
-| `POSTGRES_URL` | Neon/Postgres connection string (auto-set by Vercel Storage) |
+| `POSTGRES_URL` | Neon/Postgres connection string (recommended; auto-set by Vercel Storage) |
+| `BLOB_READ_WRITE_TOKEN` | Vercel Blob token (alternative storage; auto-set when Blob is connected) |
 | `ADMIN_PASSWORD` | Password for `/admin` dashboard |
 
 ## Tech stack

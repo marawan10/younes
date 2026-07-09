@@ -31,6 +31,8 @@ export const siteContent = {
   sending: "جارٍ الإرسال...",
   sentSuccess: "تم إرسال تهنئتك!",
   sentError: "تعذر إرسال الرسالة. حاول مرة أخرى.",
+  storageError:
+    "التخزين غير مُعدّ على السيرفر. يرجى إضافة قاعدة بيانات Postgres أو Blob في Vercel.",
   rateLimited: "يرجى الانتظار قبل إرسال رسالة أخرى.",
   share: "مشاركة",
   copied: "تم نسخ الرابط!",

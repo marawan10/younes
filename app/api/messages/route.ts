@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createMessage, getMessages } from "@/lib/messages";
+import { createMessage, getMessages, StorageUnavailableError } from "@/lib/messages";
 import { hashIp, isRateLimited } from "@/lib/rate-limit";
 import { messageSchema, sanitizeText } from "@/lib/validations";
 
 export async function GET() {
-  const result = await getMessages(50);
-  return NextResponse.json({ messages: result });
+  try {
+    const result = await getMessages(50);
+    return NextResponse.json({ messages: result });
+  } catch (error) {
+    console.error("GET /api/messages failed:", error);
+    return NextResponse.json({ error: "server_error" }, { status: 500 });
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -44,7 +49,12 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({ message: created }, { status: 201 });
-  } catch {
+  } catch (error) {
+    if (error instanceof StorageUnavailableError) {
+      return NextResponse.json({ error: "storage_unavailable" }, { status: 503 });
+    }
+
+    console.error("POST /api/messages failed:", error);
     return NextResponse.json({ error: "server_error" }, { status: 500 });
   }
 }

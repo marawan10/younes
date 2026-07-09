@@ -34,7 +34,9 @@ export function MessageForm() {
         setErrorText(
           data.error === "rate_limited"
             ? siteContent.rateLimited
-            : siteContent.sentError,
+            : data.error === "storage_unavailable"
+              ? siteContent.storageError
+              : siteContent.sentError,
         );
         return;
       }
