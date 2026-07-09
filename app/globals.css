@@ -132,6 +132,31 @@ body {
   animation: float-up linear infinite;
 }
 
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation-name: marquee-scroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.message-scroller {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.message-scroller::-webkit-scrollbar {
+  display: none;
+}
+
 @media (max-width: 768px) {
   body {
     background: #fff8f0
@@ -174,7 +199,8 @@ body {
   .animate-shimmer,
   .animate-float-slow,
   .animate-float-slower,
-  .animate-float-up {
+  .animate-float-up,
+  .marquee-track {
     animation: none;
   }
 }

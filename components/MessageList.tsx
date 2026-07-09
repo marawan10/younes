@@ -1,10 +1,9 @@
 import { BabyIcon } from "@/components/BabyIcon";
 import { DesktopMessageSection } from "@/components/DesktopMessageSection";
-import { MessageCard } from "@/components/MessageCard";
+import { MobileMessageScroller } from "@/components/MobileMessageScroller";
 import { siteContent } from "@/lib/content";
 import type { Message } from "@/lib/db/schema";
 
-const MOBILE_MESSAGE_LIMIT = 12;
 const MARQUEE_THRESHOLD = 2;
 
 export function MessageList({ messages }: { messages: Message[] }) {
@@ -23,7 +22,6 @@ export function MessageList({ messages }: { messages: Message[] }) {
     );
   }
 
-  const mobileMessages = displayMessages.slice(0, MOBILE_MESSAGE_LIMIT);
   const useMarquee = displayMessages.length >= MARQUEE_THRESHOLD;
 
   return (
@@ -38,10 +36,8 @@ export function MessageList({ messages }: { messages: Message[] }) {
       </div>
 
       <div className="rounded-3xl border border-slate-200/80 bg-white py-3 md:rounded-[2rem] md:border-white/60 md:bg-white/35 md:backdrop-blur-xl">
-        <div className="flex flex-col gap-3 px-3 py-3 md:hidden">
-          {mobileMessages.map((message) => (
-            <MessageCard key={message.id} message={message} />
-          ))}
+        <div className="md:hidden">
+          <MobileMessageScroller messages={displayMessages} />
         </div>
 
         <div className="hidden md:block">

@@ -1,13 +1,6 @@
-"use client";
-
-import dynamic from "next/dynamic";
 import { MessageCard } from "@/components/MessageCard";
+import { CssMarquee } from "@/components/CssMarquee";
 import type { Message } from "@/lib/db/schema";
-
-const DesktopMarquee = dynamic(
-  () => import("@/components/DesktopMarquee").then((m) => m.DesktopMarquee),
-  { ssr: false },
-);
 
 export function DesktopMessageSection({
   messages,
@@ -24,5 +17,5 @@ export function DesktopMessageSection({
     );
   }
 
-  return <DesktopMarquee messages={messages} />;
+  return <CssMarquee messages={messages} />;
 }
