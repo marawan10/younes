@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import {
   fireRandomFirework,
   fireWelcomeShow,
-  fireWelcomeShowLite,
 } from "@/components/celebration-effects";
 import { Confetti } from "@/components/Confetti";
 import { FireworksCanvas } from "@/components/FireworksCanvas";
@@ -26,11 +25,15 @@ export function CelebrationLayer() {
     return () => clearInterval(interval);
   }, [lite]);
 
+  if (lite) {
+    return null;
+  }
+
   return (
     <>
-      {!lite && <FloatingSparkles />}
-      {!lite && <FireworksCanvas />}
-      <Confetti onWelcome={lite ? fireWelcomeShowLite : fireWelcomeShow} />
+      <FloatingSparkles />
+      <FireworksCanvas />
+      <Confetti onWelcome={fireWelcomeShow} />
     </>
   );
 }

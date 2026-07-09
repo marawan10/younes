@@ -14,6 +14,11 @@
   --font-arabic: var(--font-cairo), system-ui, sans-serif;
 }
 
+html {
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -22,6 +27,8 @@ body {
   min-height: 100dvh;
   padding-bottom: env(safe-area-inset-bottom);
   -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
 }
 
 .font-arabic {
@@ -42,8 +49,6 @@ body {
   );
 }
 
-/* Marquee uses dir="ltr" wrapper + Framer Motion — no RTL CSS override needed */
-
 @keyframes glow-pulse {
   0%,
   100% {
@@ -62,10 +67,8 @@ body {
   animation: glow-pulse 5s ease-in-out infinite;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .celebration-card {
-    animation: none;
-  }
+.page-section {
+  contain: layout style;
 }
 
 @keyframes shimmer {
@@ -123,23 +126,45 @@ body {
 @media (max-width: 768px) {
   .celebration-card {
     animation: none;
+    box-shadow: 0 4px 16px rgba(126, 200, 227, 0.1);
   }
 
-  [data-lite="true"] .backdrop-blur-2xl,
-  [data-lite="true"] .backdrop-blur-xl,
-  [data-lite="true"] .backdrop-blur-md {
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
+  .hero-glow,
+  .form-glow {
+    display: none;
   }
 
-  [data-lite="true"] .blur-3xl,
-  [data-lite="true"] .blur-2xl,
-  [data-lite="true"] .blur-sm {
-    filter: none;
+  .backdrop-blur-2xl,
+  .backdrop-blur-xl,
+  .backdrop-blur-md,
+  .backdrop-blur-sm,
+  .backdrop-blur {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .blur-3xl,
+  .blur-2xl,
+  .blur-sm {
+    filter: none !important;
+  }
+
+  .marquee-fade {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .page-section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 320px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .celebration-card {
+    animation: none;
+  }
+
   .animate-shimmer,
   .animate-float-slow,
   .animate-float-slower,

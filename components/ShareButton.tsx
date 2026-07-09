@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { Share2, Check } from "lucide-react";
 import { siteContent } from "@/lib/content";
 
@@ -27,12 +26,10 @@ export function ShareButton() {
   }
 
   return (
-    <motion.button
+    <button
       type="button"
       onClick={handleShare}
-      whileHover={{ scale: 1.04 }}
-      whileTap={{ scale: 0.97 }}
-      className="inline-flex items-center gap-2 rounded-full border border-amber-200/90 bg-white/80 px-6 py-3 text-sm font-semibold text-amber-800 shadow-md backdrop-blur transition hover:bg-amber-50"
+      className="inline-flex items-center gap-2 rounded-full border border-amber-200/90 bg-white px-6 py-3 text-sm font-semibold text-amber-800 shadow-md transition hover:bg-amber-50 sm:bg-white/80 sm:backdrop-blur sm:hover:scale-[1.04] sm:active:scale-[0.97]"
     >
       {copied ? (
         <>
@@ -45,6 +42,6 @@ export function ShareButton() {
           {siteContent.share}
         </>
       )}
-    </motion.button>
+    </button>
   );
 }

@@ -1,21 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 function detectLiteMode() {
-  if (typeof window === "undefined") return false;
+  if (typeof window === "undefined") return true;
 
   return (
     window.matchMedia("(max-width: 768px)").matches ||
     window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-    navigator.hardwareConcurrency <= 4
+    (navigator.hardwareConcurrency > 0 && navigator.hardwareConcurrency <= 4)
   );
 }
 
 export function useLiteMode() {
-  const [lite, setLite] = useState(false);
+  const [lite, setLite] = useState(() => detectLiteMode());
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const mobileMq = window.matchMedia("(max-width: 768px)");
     const motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
 

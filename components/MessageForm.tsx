@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { fireCelebrationConfetti } from "@/components/celebration-effects";
 import { siteContent } from "@/lib/content";
+import { useLiteMode } from "@/lib/hooks/use-lite-mode";
 import type { Message } from "@/lib/db/schema";
 
 export function MessageForm({
@@ -19,6 +20,7 @@ export function MessageForm({
     "idle",
   );
   const [errorText, setErrorText] = useState("");
+  const lite = useLiteMode();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -47,7 +49,9 @@ export function MessageForm({
       setAuthorName("");
       setBody("");
       setStatus("success");
-      fireCelebrationConfetti();
+      if (!lite) {
+        fireCelebrationConfetti();
+      }
       onMessageSent(data.message);
       setTimeout(() => setStatus("idle"), 4000);
     } catch {
@@ -56,10 +60,43 @@ export function MessageForm({
     }
   }
 
+  const statusMessage =
+    status === "success" ? (
+      <div className="flex items-center gap-2 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+        <CheckCircle2 className="h-4 w-4 shrink-0" />
+        {siteContent.sentSuccess}
+      </div>
+    ) : status === "error" ? (
+      <div className="flex items-center gap-2 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+        <AlertCircle className="h-4 w-4 shrink-0" />
+        {errorText}
+      </div>
+    ) : null;
+
+  const submitButton = (
+    <button
+      type="submit"
+      disabled={status === "loading"}
+      className="group relative flex min-h-[3.25rem] w-full items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-sky-500 via-violet-500 to-sky-500 px-6 py-4 text-base font-bold text-white shadow-lg shadow-violet-200 transition disabled:cursor-not-allowed disabled:opacity-70 md:bg-[length:200%_100%] md:hover:bg-[position:100%_0] md:hover:scale-[1.02] md:active:scale-[0.98]"
+    >
+      {status === "loading" ? (
+        <>
+          <Loader2 className="h-5 w-5 animate-spin" />
+          {siteContent.sending}
+        </>
+      ) : (
+        <>
+          {siteContent.sendButton}
+          <Send className="h-5 w-5 transition md:group-hover:-translate-x-0.5" />
+        </>
+      )}
+    </button>
+  );
+
   return (
-    <section className="relative overflow-hidden rounded-3xl border border-white/70 bg-white/60 p-4 shadow-[0_20px_70px_rgba(126,200,227,0.18)] backdrop-blur-2xl sm:rounded-[2rem] sm:p-10">
-      <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-violet-200/40 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-sky-200/40 blur-3xl" />
+    <section className="page-section relative overflow-hidden rounded-3xl border border-white/70 bg-white/92 p-4 shadow-md sm:rounded-[2rem] sm:bg-white/60 sm:p-10 sm:shadow-[0_20px_70px_rgba(126,200,227,0.18)] sm:backdrop-blur-2xl">
+      <div className="form-glow pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-violet-200/40 blur-3xl" />
+      <div className="form-glow pointer-events-none absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-sky-200/40 blur-3xl" />
 
       <div className="relative mb-6 text-center sm:mb-8">
         <h2 className="text-2xl font-bold tracking-tight text-slate-800 sm:text-4xl">
@@ -99,7 +136,7 @@ export function MessageForm({
             value={authorName}
             onChange={(e) => setAuthorName(e.target.value)}
             placeholder={siteContent.namePlaceholder}
-            className="w-full rounded-2xl border border-slate-200/80 bg-white/90 px-4 py-4 text-base text-slate-800 shadow-sm outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-100"
+            className="w-full rounded-2xl border border-slate-200/80 bg-white px-4 py-4 text-base text-slate-800 shadow-sm outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-100"
           />
         </div>
 
@@ -123,55 +160,42 @@ export function MessageForm({
             value={body}
             onChange={(e) => setBody(e.target.value)}
             placeholder={siteContent.messagePlaceholder}
-            className="w-full resize-none rounded-2xl border border-slate-200/80 bg-white/90 px-4 py-4 text-base text-slate-800 shadow-sm outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
+            className="w-full resize-none rounded-2xl border border-slate-200/80 bg-white px-4 py-4 text-base text-slate-800 shadow-sm outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
           />
         </div>
 
-        <AnimatePresence mode="wait">
-          {status === "success" && (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              className="flex items-center gap-2 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700"
-            >
-              <CheckCircle2 className="h-4 w-4 shrink-0" />
-              {siteContent.sentSuccess}
-            </motion.div>
-          )}
+        {lite ? (
+          statusMessage
+        ) : (
+          <AnimatePresence mode="wait">
+            {status === "success" && (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+              >
+                {statusMessage}
+              </motion.div>
+            )}
+            {status === "error" && (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+              >
+                {statusMessage}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        )}
 
-          {status === "error" && (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              className="flex items-center gap-2 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700"
-            >
-              <AlertCircle className="h-4 w-4 shrink-0" />
-              {errorText}
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <motion.button
-          type="submit"
-          disabled={status === "loading"}
-          whileHover={{ scale: status === "loading" ? 1 : 1.02 }}
-          whileTap={{ scale: status === "loading" ? 1 : 0.98 }}
-          className="group relative flex min-h-[3.25rem] w-full items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-sky-500 via-violet-500 to-sky-500 bg-[length:200%_100%] px-6 py-4 text-base font-bold text-white shadow-lg shadow-violet-200 transition hover:bg-[position:100%_0] disabled:cursor-not-allowed disabled:opacity-70"
-        >
-          {status === "loading" ? (
-            <>
-              <Loader2 className="h-5 w-5 animate-spin" />
-              {siteContent.sending}
-            </>
-          ) : (
-            <>
-              {siteContent.sendButton}
-              <Send className="h-5 w-5 transition group-hover:-translate-x-0.5" />
-            </>
-          )}
-        </motion.button>
+        {lite ? (
+          submitButton
+        ) : (
+          <motion.div whileHover={{ scale: status === "loading" ? 1 : 1.02 }} whileTap={{ scale: status === "loading" ? 1 : 0.98 }}>
+            {submitButton}
+          </motion.div>
+        )}
       </form>
     </section>
   );
