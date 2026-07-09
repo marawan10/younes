@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { BackgroundLullaby } from "@/components/BackgroundLullaby";
 
 const CelebrationLayer = dynamic(
   () =>
@@ -18,7 +17,6 @@ const AnimatedBackground = dynamic(
 export function PageChrome() {
   return (
     <>
-      <BackgroundLullaby />
       <CelebrationLayer />
       <div className="hidden md:contents">
         <AnimatedBackground />

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
+import { BackgroundLullaby } from "@/components/BackgroundLullaby";
 import { siteContent } from "@/lib/content";
 import "./globals.css";
 
@@ -36,6 +37,7 @@ export default function RootLayout({
         className={`${cairo.variable} min-h-full font-sans antialiased`}
         suppressHydrationWarning
       >
+        <BackgroundLullaby />
         {children}
       </body>
     </html>
